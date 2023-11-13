@@ -1,0 +1,16 @@
+{
+    // ニーモニック: アカウントにアクセスするために使用される24語のシード
+    "mnemonic": "aaa bbb ccc ddd ...",
+    "keyInfo": {
+    // keyInfo.privateKey: アカウント秘密鍵で、トークン転送に必要ではsenderKeyと呼ばれることがある
+    "privateKey": "5a3f1f15245bb3fb...",
+    // keyInfo.address: アカウントのスタックアドレス
+    "address": "STJRM2AMVF90ER6G3RW1QTF85E3HZH37006D5ER1",
+    // keyInfo.btcAddress: 口座に対応するBTCアドレス
+    "btcAddress": "biwSd6KTEvJcyX2R8oyfgj5REuLzczMYC1",
+    // keyInfo.wif: btcAddressの秘密鍵を圧縮したもの
+    "wif": "L4HXn7PLmzoNW...",
+    // keyInfo.index: 0から始まるアカウントのナンス
+    "index": 0
+    }
+}
