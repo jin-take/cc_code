@@ -5,58 +5,98 @@ const ECPair = ECPairFactory(ecc);
 require('dotenv').config();
 const env = process.env
 
-// トランザクションデータの例
-const txData = {
-    txId: String(env.TXID),
-    outputIndex: 0,
-    amount: Number(env.INPUT_AMOUNT),
-    previousOutputHex: String(env.PRE_TX_HEX)
-};
-
-// トランザクションの作成
-function createAndSignMultisigTransaction(secret1: string, secret2: string, txData: any): string {
-    const network = bitcoin.networks.testnet;
-
-    // 秘密鍵からキーペアを生成
-    const keyPair1 = ECPair.fromPrivateKey(Buffer.from(String(env.SECRET_KEY_A_1), 'hex'), { network });
-    const keyPair2 = ECPair.fromPrivateKey(Buffer.from(String(env.SECRET_KEY_A_2), 'hex'), { network });
-
-    // PSBTの初期化
-    const psbt = new bitcoin.Psbt({ network });
-
-    // トランザクション入力の追加
-    psbt.addInput({
-        hash: txData.txId,
-        index: txData.outputIndex,
-        // 前のトランザクションのアウトプットデータ
-        // ノンウィットネスUTXOか、witnessUTXOのどちらかを含める必要があります
-        nonWitnessUtxo: Buffer.from(txData.previousOutputHex, 'hex')
-    });
-
-    // トランザクション出力の追加
-    psbt.addOutput({
-        address: String(env.ADDRESS_B),
-        value: txData.amount,
-    });
-
-    // トランザクション署名
-    psbt.signInput(0, keyPair1);
-    psbt.signInput(0, keyPair2);
-
-    // トランザクションの最終化
-    psbt.finalizeAllInputs();
-
-    // 完成したトランザクションをHEX形式で取得
-    return psbt.extractTransaction().toHex();
+interface UTXO {
+    txid: string;
+    vout: number;
+    value: number;
+    scriptPubKeyHex: string;
 }
 
 
 function main() {
-    const secret1 = String(env.SECRET_KEY_A_1);
-    const secret2 = String(env.SECRET_KEY_A_2);;
+    const utxos: UTXO[] = [
+        {
+            txid: String(env.TXID),
+            vout: 0,
+            value: 10168,
+            scriptPubKeyHex: String(env.PRE_TX_HEX),
+        }
+    ];
     
-    const rawTransaction = createAndSignMultisigTransaction(secret1, secret2, txData);
-    console.log(rawTransaction);
+    const recipientAddress: string = String(env.ADDRESS_B);
+    const changeAddress: string = String(env.ADDRESS_A)
+    const amountToSend = 5000; // 送金額（サトシ単位）
+    const feeRate = 500; // 手数料率（サトシ/バイト）
+    const m = 2; // マルチシグの「m」の値
+    const n = 3; // マルチシグの「n」の値
+    const privateKeys = [String(env.SECRET_KEY_A_1), String(env.SECRET_KEY_A_2)]; // マルチシグの秘密鍵
+    
+    const transaction = createMultisigTransaction(utxos, recipientAddress, changeAddress, amountToSend, feeRate, m, n, privateKeys)
+        .then(transactionHex => console.log(transactionHex))
+        .catch(error => console)
+        
+    console.log(transaction)
 }
 
+
+async function createMultisigTransaction(utxos: UTXO[], recipientAddress: string, changeAddress: string, amountToSend: number, feeRate: number, m: number, n: number, privateKeys: string[]): Promise<string> {
+    const network = bitcoin.networks.testnet; 
+
+    // PSBTの初期化
+    const psbt = new bitcoin.Psbt({ network });
+
+    // トランザクションの入力を追加
+    utxos.forEach(utxo => {
+        psbt.addInput({
+            hash: utxo.txid,
+            index: utxo.vout,
+            witnessUtxo: {
+                script: Buffer.from(utxo.scriptPubKeyHex, 'hex'),
+                value: utxo.value,
+            },
+        });
+    });
+
+    // 送金先への出力を追加
+    psbt.addOutput({
+        address: recipientAddress,
+        value: amountToSend, // サトシ単位
+    });
+
+    // 手数料の計算
+    const totalUtxoValue = utxos.reduce((total, utxo) => total + utxo.value, 0);
+    const changeValue = totalUtxoValue - amountToSend - feeRate * psbt.txInputs.length; // 手数料を引く
+
+    // お釣りの出力を追加（お釣りがある場合）
+    if (changeValue > 0) {
+        psbt.addOutput({
+            address: changeAddress,
+            value: changeValue,
+        });
+    }
+
+    // 秘密鍵からキーペアを生成
+    const keyPairs = privateKeys.map((key) => ECPair.fromWIF(key, network));
+    console.log(keyPairs)
+
+    // トランザクションを署名
+    utxos.forEach((_, index) => {
+        keyPairs.forEach(keyPair => {
+            psbt.signInput(index, keyPair);
+        });
+    });
+    
+    console.log(utxos)
+
+    // トランザクションの最終化
+    psbt.finalizeAllInputs();
+    
+    const rawTx = psbt.extractTransaction().toHex();
+    console.log(rawTx)
+    
+    return rawTx;
+}
+
+
 main();
+
