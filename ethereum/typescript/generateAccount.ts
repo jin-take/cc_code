@@ -17,3 +17,18 @@ async function main() {
 }
 
 main();
+
+
+// import { ethers } from 'ethers';
+
+// function generateEthereumAddress() {
+//   const wallet = ethers.Wallet.createRandom();
+//   return {
+//     address: wallet.address,
+//     privateKey: wallet.privateKey
+//   };
+// }
+
+// const newAddress = generateEthereumAddress();
+// console.log(`アドレス（公開鍵）: ${newAddress.address}`);
+// console.log(`秘密鍵: ${newAddress.privateKey}`);
