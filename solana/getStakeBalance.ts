@@ -48,9 +48,9 @@ async function getStakeAccounts(publicKey: web3.PublicKey) {
 }
         
 async function getBalance() {
-    const publicKey = new web3.PublicKey('EDuVpfE29Rb7S9q1bM5Db8WwtqMAPbZb8bqrfNcNt24c');
+    const publicKey = new web3.PublicKey('<ここにアドレス>');
     const data = await getStakeAccounts(publicKey);
-    console.log("総残高: ", data[0]);
+    console.log("残高: ", data[0]);
     console.log("総ステーク数量: ", data[1]);
 }
 

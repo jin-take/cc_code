@@ -5,7 +5,7 @@ async function getBalance() {
     const connection = new web3.Connection(web3.clusterApiUrl('mainnet-beta'));
 
     // 残高を確認したいアドレスを設定
-    const address = new web3.PublicKey('EDuVpfE29Rb7S9q1bM5Db8WwtqMAPbZb8bqrfNcNt24c');
+    const address = new web3.PublicKey('<ここにアカウント>');
 
     try {
         // 残高を取得
