@@ -1,0 +1,11 @@
+/Users/jin237/dev/cc_code/stacks/rust-stacks/target/debug/deps/libbip39-c9fd9f4ce9ea7381.rmeta: /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/lib.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/internal_macros.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/mod.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/english.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/pbkdf2.rs
+
+/Users/jin237/dev/cc_code/stacks/rust-stacks/target/debug/deps/libbip39-c9fd9f4ce9ea7381.rlib: /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/lib.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/internal_macros.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/mod.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/english.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/pbkdf2.rs
+
+/Users/jin237/dev/cc_code/stacks/rust-stacks/target/debug/deps/bip39-c9fd9f4ce9ea7381.d: /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/lib.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/internal_macros.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/mod.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/english.rs /Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/pbkdf2.rs
+
+/Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/lib.rs:
+/Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/internal_macros.rs:
+/Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/mod.rs:
+/Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/language/english.rs:
+/Users/jin237/.cargo/registry/src/index.crates.io-6f17d22bba15001f/bip39-1.2.0/src/pbkdf2.rs:
