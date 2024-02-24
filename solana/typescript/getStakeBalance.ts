@@ -38,6 +38,8 @@ async function getStakeAccounts(publicKey: web3.PublicKey) {
             const stakeFee = stakeInfo.parsed.info.meta.rentExemptReserve / web3.LAMPORTS_PER_SOL;
             const balance = stakeAmount + stakeFee;
             
+            console.log(`stake account: ${account.pubkey} \nbalance(stake amount): ${balance}`)
+            
             // 加算
             amounts += stakeAmount;
             totalBalance += balance;
