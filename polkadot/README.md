@@ -11,3 +11,11 @@ poladotの実装の検証のためのコード
 - [ ] ウォレットアプリとの連携
 - [ ] 報酬履歴の取得と確認
 - [ ] ノミネート処理の実行
+
+
+# 検証レポート
+
+### metadotでのアカウント作成
+アカウント：5DFNFGFF18bDCFQntd65k4tZCbLCqNpyiu1iMn1SWWGEpq5f
+![metadotで作成してfaucetを取得したあとの画像](./assets/image001.png)
+
