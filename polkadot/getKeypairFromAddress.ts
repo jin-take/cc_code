@@ -4,7 +4,7 @@ import { Keyring } from '@polkadot/keyring';
 import type { KeyringPair } from './types.ts';
 
 // メインアカウントの作成
-async function generateAccount(seed: string): Promise<KeyringPair|undefined> {
+async function getMainAccount(seed: string): Promise<KeyringPair|undefined> {
     const keyring: Keyring = new Keyring();
     const keyPair: KeyringPair = await keyring.addFromMnemonic(seed);
     
@@ -15,7 +15,7 @@ async function generateAccount(seed: string): Promise<KeyringPair|undefined> {
 async function main(){
     // アカウントの生成
     const seed = 'icon absorb used health swap case moon outside model liquid fat pyramid'
-    const account = await generateAccount(seed);
+    const account = await getMainAccount(seed);
     
     
     const address = "5DFNFGFF18bDCFQntd65k4tZCbLCqNpyiu1iMn1SWWGEpq5f"
