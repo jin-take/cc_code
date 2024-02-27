@@ -1,0 +1,9 @@
+title: "暗号資産を'ちょっと'ずつ知る"
+summary: "暗号資産とそれを支えるブロックチェーンを知る"
+topics: []
+published: false
+price: 0 # 有料の場合200〜5000
+# 本に含めるチャプターを順番に並べましょう
+chapters:
+  - chapter01
+  - chapter02
