@@ -26,7 +26,7 @@ async function getBalance(address: string) {
     for (let era = startEra; era <= currentEraInt; era++) {
         const rewards = await api.query.staking.erasRewardPoints(era);
         // console.log(`Era: ${era}, Rewards: `, rewards.individual[address]?.toString());
-        console.log(`Era: ${era}, Rewards: `, rewards[0].AccountInfo.toHuman());
+        console.log(`Era: ${era}, Rewards: `, rewards.toHuman());
     }
 
 
