@@ -1,31 +1,44 @@
-import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import { SigningStargateClient, coins } from '@cosmjs/stargate';
+import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
+import { SigningStargateClient, StargateClient, MsgDelegate } from "@cosmjs/stargate";
+import { assertIsBroadcastTxSuccess } from "@cosmjs/stargateclient"
+import { coins } from "@cosmjs/amino";
 
-const mnemonic = 'book still horror family vault okay horse wing mosquito bless umbrella couple online furnace lobster token demand snap aspect choose animal december bind sphere'; // ご自身のニーモニックに置き換えてください
-const rpcEndpoint = 'https://endpoints-testnet-1.lavanet.xyz:443/gateway/cos5/rpc-http/cdb3924c11c503a8409192cde3b911b1'; // 使用するRPCエンドポイントに置き換えてください
-const validatorAddress = 'cosmosvaloper1v5y0tg0jllvxf5c3afml8s3awue0ymju89frut'; // 委任したいバリデーターのアドレスに置き換えてください
-const delegatorAddress = 'cosmos1l550x4yh76hxh37lf5ag8u879dphknydgk8g0t'; // あなたのコスモスアドレスに置き換えてください
-const amountToDelegate = '2000'; // uatom単位でデリゲートする量 (1 ATOM = 1,000,000 uatom)
+// RPC エンドポイント
+const rpcEndpoint = "https://rpc.sentry-01.theta-testnet.polypore.xyz"; // 実際のエンドポイントに置き換えてください
 
-async function delegateTokens() {
-    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix: 'cosmos' });
+async function delegateTokens(delegatorAddress: string, validatorAddress: string, amount: string, denom: string, mnemonic: string) {
+    // デリゲーターのウォレットを生成
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, { prefix: "cosmos" });
+
+    // SigningStargateClient を作成
     const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, wallet);
 
-    const amount = coins(amountToDelegate, 'uatom');
+    // デリゲートするトークンの量と種類
+    const delegatingTokens = coins(amount, denom);
+
+    // メッセージを作成
+    const msg = {
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        value: MsgDelegate.fromPartial({
+            delegatorAddress,
+            validatorAddress,
+            amount: delegatingTokens[0],
+        }),
+    };
+
+    // トランザクションを送信
     const fee = {
-        amount: coins(200, 'uatom'), // トランザクション手数料に使用するuatomの量
-        gas: '200', // 使用するガスの量
+        amount: coins("5000", "uatom"), // 手数料の設定（必要に応じて調整）
+        gas: "200000", // ガスリミット
     };
 
-    const message = {
-        delegatorAddress,
-        validatorAddress,
-        amount,
-    };
+    const result = await client.signAndBroadcast(delegatorAddress, [msg], fee, "Delegate via CosmJS");
 
-    const result = await client.delegateTokens(delegatorAddress, validatorAddress, amount[0], fee);
+    // トランザクションの結果を確認
+    assertIsBroadcastTxSuccess(result);
 
-    console.log(`Successfully delegated! Transaction hash: ${result.transactionHash}`);
+    console.log("Successfully delegated:", result);
 }
 
-delegateTokens().catch(console.error);
+// デリゲーターのアドレス、バリデーターのアドレス、デリゲートする量、デノミネーション、および助記符
+delegateTokens("cosmos1...", "cosmosvaloper1...", "1000000", "uatom", "your mnemonic here");
